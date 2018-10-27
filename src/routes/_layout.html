@@ -1,4 +1,4 @@
-<Nav segment={child.segment}/>
+<Nav segment={child.segment} {val}/>
 
 <main>
 	<svelte:component this={child.component} {...child.props}/>
@@ -19,6 +19,12 @@
 	export default {
 		components: {
 			Nav: '../components/Nav.html'
-		}
+		},
+
+		preload() {
+			// this will fail because '/json' returns `{ val: 'Hello world' }`
+			// as js instead of json
+			return this.fetch('/json').then((response) => response.json())
+		},
 	};
 </script>
